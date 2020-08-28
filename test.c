@@ -56,6 +56,8 @@ int main()
     aes_128_enc_block(plain,cipher,subkey);
     printmem(plain,16,"plain");
     printmem(cipher,16,"cipher");
+    aes_128_dec_block(cipher,decrypt,subkey);
+    printmem(decrypt,16,"decrypted");
     return 0;
 }
 

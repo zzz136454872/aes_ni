@@ -17,10 +17,25 @@ void aes_128_enc_block(unsigned char *plain,unsigned char* cipher,unsigned char 
     }
     round_key=_mm_loadu_si128((__m128i*)subkey+10);
     process=_mm_aesenclast_si128(process,round_key);
-    _mm_storeu_si128((__m128*)cipher,process);
+    _mm_storeu_si128((__m128i*)cipher,process);
 }
 
-void aes_128_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16]);
+void aes_128_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16])
+{
+    __m128i process=_mm_loadu_si128((__m128i*)cipher);
+    __m128i round_key=_mm_loadu_si128((__m128i*)subkey+10);
+    process=_mm_xor_si128(process,round_key);
+    int i;
+    for(i=9;i>0;i--)
+    {
+        round_key=_mm_loadu_si128((__m128i*)subkey+i);
+        round_key=_mm_aesimc_si128(round_key);
+        process=_mm_aesdec_si128(process,round_key);
+    }
+    round_key=_mm_loadu_si128((__m128i*)subkey);
+    process=_mm_aesdeclast_si128(process,round_key);
+    _mm_storeu_si128((__m128i*)plain,process);
+}
 
 void aes_128_key_expansion(unsigned char* key,unsigned char (* subkey)[16])
 {
