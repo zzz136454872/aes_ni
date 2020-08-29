@@ -40,24 +40,27 @@ long long nstimer()
 }
 
 // a test key
-unsigned char key[16]={0x2b,0x7e,0x15,0x16,0x28,0xae,0xd2,0xa6,0xab,0xf7,0x15,0x88,0x09,0xcf,0x4f,0x3c};
+unsigned char key[32]={0x2b,0x7e,0x15,0x16,0x28,0xae,0xd2,0xa6,0xab,0xf7,0x15,0x88,0x09,0xcf,0x4f,0x3c};
 // the buffer for round key
 unsigned char subkey[15][16];
-unsigned char plain[16]={0x32,0x43,0xf6,0xa8,0x88,0x5a,0x30,0x8d,0x31,0x31,0x98,0xa2,0xe0,0x37,0x07,0x34};
+unsigned char plain[32]={0x32,0x43,0xf6,0xa8,0x88,0x5a,0x30,0x8d,0x31,0x31,0x98,0xa2,0xe0,0x37,0x07,0x34};
 
-unsigned char cipher[16];
-unsigned char decrypt[16];
+unsigned char cipher[32];
+unsigned char decrypt[32];
 
 int main()
 {
-    printmem(key,16,"key");
-    aes_128_key_expansion(key,subkey);
-    printmem(subkey,240,"subkey128");
-    aes_128_enc_block(plain,cipher,subkey);
-    printmem(plain,16,"plain");
-    printmem(cipher,16,"cipher");
-    aes_128_dec_block(cipher,decrypt,subkey);
-    printmem(decrypt,16,"decrypted");
+    //test of aes 128
+    //printmem(key,16,"key");
+    //aes_128_key_expansion(key,subkey);
+    //printmem(subkey,240,"subkey128");
+    //aes_128_enc_block(plain,cipher,subkey);
+    //printmem(plain,16,"plain");
+    //printmem(cipher,16,"cipher");
+    //aes_128_dec_block(cipher,decrypt,subkey);
+    //printmem(decrypt,16,"decrypted");
+    //test of aes 192
+
     return 0;
 }
 
