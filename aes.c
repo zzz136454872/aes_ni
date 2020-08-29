@@ -8,23 +8,23 @@ void aes_enc_block(unsigned char *plain,unsigned char* cipher,unsigned char (*su
     __m128i round_key=_mm_loadu_si128((__m128i*)subkey);
     process=_mm_xor_si128(process,round_key);
     int i;
-    for(i=1;i<10;i++)
+    for(i=1;i<nk+6;i++)
     {
         round_key=_mm_loadu_si128((__m128i*)subkey+i);
         process=_mm_aesenc_si128(process,round_key);
     }
-    round_key=_mm_loadu_si128((__m128i*)subkey+10);
+    round_key=_mm_loadu_si128((__m128i*)subkey+nk+6);
     process=_mm_aesenclast_si128(process,round_key);
     _mm_storeu_si128((__m128i*)cipher,process);
 }
 
-void aes_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16],nk)
+void aes_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16],unsigned char nk)
 {
     __m128i process=_mm_loadu_si128((__m128i*)cipher);
-    __m128i round_key=_mm_loadu_si128((__m128i*)subkey+10);
+    __m128i round_key=_mm_loadu_si128((__m128i*)subkey+nk+6);
     process=_mm_xor_si128(process,round_key);
     int i;
-    for(i=9;i>0;i--)
+    for(i=nk+5;i>0;i--)
     {
         round_key=_mm_loadu_si128((__m128i*)subkey+i);
         round_key=_mm_aesimc_si128(round_key);

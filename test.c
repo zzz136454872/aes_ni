@@ -40,11 +40,11 @@ long long nstimer()
 }
 
 // a test key
-//unsigned char key[16]={0x2b,0x7e,0x15,0x16,0x28,0xae,0xd2,0xa6,0xab,0xf7,0x15,0x88,0x09,0xcf,0x4f,0x3c};
+unsigned char key128[16]={0x2b,0x7e,0x15,0x16,0x28,0xae,0xd2,0xa6,0xab,0xf7,0x15,0x88,0x09,0xcf,0x4f,0x3c};
 
-unsigned char key[24]={0x8e,0x73,0xb0,0xf7,0xda,0x0e,0x64,0x52,0xc8,0x10,0xf3,0x2b,0x80,0x90,0x79,0xe5,0x62,0xf8,0xea,0xd2,0x52,0x2c,0x6b,0x7b};
+unsigned char key192[24]={0x8e,0x73,0xb0,0xf7,0xda,0x0e,0x64,0x52,0xc8,0x10,0xf3,0x2b,0x80,0x90,0x79,0xe5,0x62,0xf8,0xea,0xd2,0x52,0x2c,0x6b,0x7b};
 
-//unsigned char key[32];
+unsigned char key256[32];
 
 // the buffer for round key
 unsigned char subkey[15][16];
@@ -56,24 +56,24 @@ unsigned char decrypt[32];
 int main()
 {
     //test of aes 128
-    //printmem(key,16,"key");
-    //aes_128_key_expansion(key,subkey);
-    //printmem(subkey,240,"subkey128");
-    //aes_128_enc_block(plain,cipher,subkey);
-    //printmem(plain,16,"plain");
-    //printmem(cipher,16,"cipher");
-    //aes_128_dec_block(cipher,decrypt,subkey);
-    //printmem(decrypt,16,"decrypted");
+    printmem(key128,16,"key");
+    aes_128_key_expansion(key128,subkey);
+    printmem(subkey,240,"subkey128");
+    aes_enc_block(plain,cipher,subkey,4);
+    printmem(plain,16,"plain");
+    printmem(cipher,16,"cipher");
+    aes_dec_block(cipher,decrypt,subkey,4);
+    printmem(decrypt,16,"decrypted");
     //test of aes 192
-    printmem(key,24,"key");
-    aes_192_key_expansion(key,subkey);
+    printmem(key192,24,"key");
+    aes_192_key_expansion(key192,subkey);
     printmem(subkey,240,"subkey192");
-    //aes_128_enc_block(plain,cipher,subkey);
-    //printmem(plain,16,"plain");
-    //printmem(cipher,16,"cipher");
-    //aes_128_dec_block(cipher,decrypt,subkey);
-    //printmem(decrypt,16,"decrypted");
-
+    aes_enc_block(plain,cipher,subkey,6);
+    printmem(plain,16,"plain");
+    printmem(cipher,16,"cipher");
+    aes_dec_block(cipher,decrypt,subkey,6);
+    printmem(decrypt,16,"decrypted");
+    //test of aes 256
     return 0;
 }
 
