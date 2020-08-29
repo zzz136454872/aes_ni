@@ -2,7 +2,7 @@
 
 const unsigned char rcon[14]={0x00,0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80,0x1b,0x36};
 
-void aes_128_enc_block(unsigned char *plain,unsigned char* cipher,unsigned char (*subkey)[16])
+void aes_enc_block(unsigned char *plain,unsigned char* cipher,unsigned char (*subkey)[16],unsigned char nk)
 {
     __m128i process=_mm_loadu_si128((__m128i*)plain);
     __m128i round_key=_mm_loadu_si128((__m128i*)subkey);
@@ -18,7 +18,7 @@ void aes_128_enc_block(unsigned char *plain,unsigned char* cipher,unsigned char 
     _mm_storeu_si128((__m128i*)cipher,process);
 }
 
-void aes_128_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16])
+void aes_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*subkey)[16],nk)
 {
     __m128i process=_mm_loadu_si128((__m128i*)cipher);
     __m128i round_key=_mm_loadu_si128((__m128i*)subkey+10);
