@@ -168,4 +168,86 @@ void aes_192_key_expansion(unsigned char* key,unsigned char (* subkey)[16])
     pi[i++]=pi[i-1]^pi[i-6]; pi[i++]=pi[i-1]^pi[i-6];
 }
 
+void aes_256_key_expansion(unsigned char* key,unsigned char(* subkey)[16])
+{
+    unsigned int buffer[4];
+    unsigned int *pi=(unsigned int*)subkey;
+    memcpy(subkey[0],key,32);
+    __m128i tmp;
+    int i=8;
+
+    //round1
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round2
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x02);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round3
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x04);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round4
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x08);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round5
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x10);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round6
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x20);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x01);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[0]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+    //round7
+    tmp=_mm_set1_epi32(pi[i-1]);
+    tmp=_mm_aeskeygenassist_si128(tmp,0x40);
+    _mm_storeu_si128((__m128i*)buffer,tmp);
+    pi[i++]=pi[i-8]^buffer[1]; pi[i++]=pi[i-1]^pi[i-8];
+    pi[i++]=pi[i-1]^pi[i-8]; pi[i++]=pi[i-1]^pi[i-8];
+}
+
 
