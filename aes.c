@@ -35,6 +35,21 @@ void aes_dec_block(unsigned char *cipher,unsigned char *plain,unsigned char (*su
     _mm_storeu_si128((__m128i*)plain,process);
 }
 
+void aes_key_expansion(unsigned char *key,unsigned char (*subkey)[16],unsigned char nk)
+{
+    switch(nk)
+    {
+        case 4:
+            aes_128_key_expansion(key,subkey); break;;
+        case 6:
+            aes_192_key_expansion(key,subkey); break;
+        case 8:
+            aes_256_key_expansion(key,subkey); break;
+        default:
+            printf("bad nk: %d\n",nk);
+    }
+}
+
 void aes_128_key_expansion(unsigned char* key,unsigned char (* subkey)[16])
 {
     unsigned int buffer[4];
