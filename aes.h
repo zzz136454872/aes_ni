@@ -1,4 +1,3 @@
-// 
 #ifndef aes_h
 
 #include<wmmintrin.h>
