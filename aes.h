@@ -3,6 +3,7 @@
 #include<wmmintrin.h>
 #include<emmintrin.h>
 #include<string.h>
+#include<stdio.h>
 
 //bits -> nk
 //128  -> 4
